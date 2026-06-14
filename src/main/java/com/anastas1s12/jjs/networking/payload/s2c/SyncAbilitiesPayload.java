@@ -1,7 +1,7 @@
 // This file previously contained a custom payload codec for abilities. Ability syncing now uses
 // a raw packet via AbilityNetworking, so this file is kept as an (unused) placeholder to avoid
 // large refactors elsewhere.
-package com.anastas1s12.jjs.networking.payload;
+package com.anastas1s12.jjs.networking.payload.s2c;
 
 import com.anastas1s12.jjs.JujutsuSorcery;
 import com.anastas1s12.jjs.abilities.AbilityData;
@@ -11,9 +11,6 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 
-/**
- * Simple payload that encodes four strings (we rely on the engine's string codec name).
- */
 public record SyncAbilitiesPayload(String assignedTechnique, String knownAbilitiesCsv, String cooldownsCsv, String hotbarCsv) implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<SyncAbilitiesPayload> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(JujutsuSorcery.MOD_ID, "sync_abilities"));
     public static final StreamCodec<RegistryFriendlyByteBuf, SyncAbilitiesPayload> CODEC = StreamCodec.composite(

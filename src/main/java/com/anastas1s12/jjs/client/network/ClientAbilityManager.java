@@ -1,7 +1,7 @@
 package com.anastas1s12.jjs.client.network;
 
 import net.minecraft.resources.ResourceLocation;
-import com.anastas1s12.jjs.networking.payload.SyncAbilitiesPayload;
+import com.anastas1s12.jjs.networking.payload.s2c.SyncAbilitiesPayload;
 
 import java.util.HashMap;
 import java.util.HashSet;

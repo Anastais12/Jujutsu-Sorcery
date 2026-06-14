@@ -2,24 +2,41 @@ package com.anastas1s12.jjs.abilities;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 
 /**
  * Represents a single ability with basic metadata used by the ability system.
  */
 public class Ability {
+
+    public enum TriggerType {
+        CLICK,
+        HOLD,
+        TOGGLE,
+        PASSIVE
+    }
+
     private final ResourceLocation id;
     private final String name;
     private final String description;
-    private final ResourceLocation icon; // resource location to an icon texture
+    private final ResourceLocation icon;
     private final int cursedEnergyCost;
     private final int cooldownTicks;
     private final AbilityType type;
+    private final TriggerType triggerType;
 
-    public Ability(ResourceLocation id, String name, String description, ResourceLocation icon, int cursedEnergyCost, int cooldownTicks) {
-        this(id, name, description, icon, cursedEnergyCost, cooldownTicks, AbilityType.NONE);
+    public Ability(ResourceLocation id, String name, String description, ResourceLocation icon,
+                   int cursedEnergyCost, int cooldownTicks) {
+        this(id, name, description, icon, cursedEnergyCost, cooldownTicks, AbilityType.NONE, TriggerType.CLICK);
     }
 
-    public Ability(ResourceLocation id, String name, String description, ResourceLocation icon, int cursedEnergyCost, int cooldownTicks, AbilityType type) {
+    public Ability(ResourceLocation id, String name, String description, ResourceLocation icon,
+                   int cursedEnergyCost, int cooldownTicks, AbilityType type) {
+        this(id, name, description, icon, cursedEnergyCost, cooldownTicks, type, TriggerType.CLICK);
+    }
+
+    public Ability(ResourceLocation id, String name, String description, ResourceLocation icon,
+                   int cursedEnergyCost, int cooldownTicks, AbilityType type, TriggerType triggerType) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -27,8 +44,10 @@ public class Ability {
         this.cursedEnergyCost = Math.max(0, cursedEnergyCost);
         this.cooldownTicks = Math.max(0, cooldownTicks);
         this.type = type == null ? AbilityType.NONE : type;
+        this.triggerType = triggerType == null ? TriggerType.CLICK : triggerType;
     }
 
+    // Getters
     public ResourceLocation getId() {
         return id;
     }
@@ -57,7 +76,32 @@ public class Ability {
         return type;
     }
 
-    // Optional helper: write minimal representation to NBT (id only usually sufficient)
+    public TriggerType getTriggerType() {
+        return triggerType;
+    }
+
+    /**
+     * Override this to implement ability effects
+     */
+    public void execute(ServerPlayer player) {
+        // Base implementation - override in subclasses
+    }
+
+    /**
+     * Called when ability is held (for HOLD trigger type)
+     */
+    public void onHold(ServerPlayer player, int holdTicks) {
+        // Override for hold abilities
+    }
+
+    /**
+     * Called when ability is released (for HOLD trigger type)
+     */
+    public void onRelease(ServerPlayer player, int heldTicks) {
+        // Override for hold abilities
+    }
+
+    // NBT Serialization
     public CompoundTag toNbt() {
         CompoundTag tag = new CompoundTag();
         tag.putString("id", id.toString());
@@ -67,6 +111,7 @@ public class Ability {
         tag.putInt("cost", cursedEnergyCost);
         tag.putInt("cooldown", cooldownTicks);
         tag.putString("type", type == null ? "none" : type.name());
+        tag.putString("triggerType", triggerType.name());
         return tag;
     }
 
@@ -77,12 +122,20 @@ public class Ability {
         ResourceLocation icon = parse(tag.getString("icon"));
         int cost = tag.getInt("cost");
         int cooldown = tag.getInt("cooldown");
+
         AbilityType type = AbilityType.NONE;
         try {
             String t = tag.getString("type");
             if (t != null && !t.isEmpty()) type = AbilityType.valueOf(t);
         } catch (Exception ignored) {}
-        return new Ability(id, name, description, icon, cost, cooldown, type);
+
+        TriggerType triggerType = TriggerType.CLICK;
+        try {
+            String t = tag.getString("triggerType");
+            if (t != null && !t.isEmpty()) triggerType = TriggerType.valueOf(t);
+        } catch (Exception ignored) {}
+
+        return new Ability(id, name, description, icon, cost, cooldown, type, triggerType);
     }
 
     private static ResourceLocation parse(String s) {

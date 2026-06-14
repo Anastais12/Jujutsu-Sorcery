@@ -1,4 +1,4 @@
-package com.anastas1s12.jjs.sorcerermode.command;
+package com.anastas1s12.jjs.command;
 
 import com.anastas1s12.jjs.JujutsuSorcery;
 import com.anastas1s12.jjs.sorcerermode.SorcererModeManager;
@@ -14,16 +14,15 @@ import net.minecraft.server.level.ServerPlayer;
 /**
  * Command handler for sorcerer mode debug commands
  */
-public class SorcererModeCommandHandler {
+public class ModCommands {
 
     public static void initialize() {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
-                registerSorcererCommands(dispatcher)
+                registerCommands(dispatcher)
         );
     }
 
-    private static void registerSorcererCommands(CommandDispatcher<CommandSourceStack> dispatcher) {
-        // /jjs sorcerer toggle
+    private static void registerCommands(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("jjs")
                 .then(Commands.literal("sorcerer")
                         .then(Commands.literal("toggle")
@@ -33,7 +32,6 @@ public class SorcererModeCommandHandler {
                                     return 1;
                                 })
                         )
-                        // /jjs sorcerer hasEnteredSorcererModeBefore <true/false>
                         .then(Commands.literal("hasEnteredSorcererModeBefore")
                                 .then(Commands.argument("value", StringArgumentType.word())
                                         .suggests((context, builder) -> {
@@ -59,7 +57,6 @@ public class SorcererModeCommandHandler {
                                         })
                                 )
                         )
-                        // /jjs sorcerer technique assign <id>
                         .then(Commands.literal("technique")
                                 .then(Commands.literal("assign")
                                         .then(Commands.argument("id", StringArgumentType.word())

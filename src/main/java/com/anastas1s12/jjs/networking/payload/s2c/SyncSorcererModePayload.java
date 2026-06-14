@@ -1,4 +1,4 @@
-package com.anastas1s12.jjs.networking.payload;
+package com.anastas1s12.jjs.networking.payload.s2c;
 
 import com.anastas1s12.jjs.JujutsuSorcery;
 import com.anastas1s12.jjs.sorcerermode.SorcererModeData;

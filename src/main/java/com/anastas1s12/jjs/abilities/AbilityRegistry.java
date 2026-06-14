@@ -1,6 +1,10 @@
 package com.anastas1s12.jjs.abilities;
 
 import com.anastas1s12.jjs.JujutsuSorcery;
+import com.anastas1s12.jjs.abilities.techiques.template.CursedReinforcement;
+import com.anastas1s12.jjs.abilities.techiques.template.EnergyBlast;
+import com.anastas1s12.jjs.abilities.techiques.template.FlareStrike;
+import com.anastas1s12.jjs.abilities.techiques.template.ShadowDash;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.Collections;
@@ -14,28 +18,19 @@ public class AbilityRegistry {
     private static final Map<ResourceLocation, Ability> REGISTRY = new HashMap<>();
 
     public static void initialize() {
-        // Register example abilities here (replace or extend with JSON/resource-driven loader later)
-        register(new Ability(ResourceLocation.fromNamespaceAndPath(JujutsuSorcery.MOD_ID, "flare_strike"),
-                "Flare Strike",
-                "A focused burst of cursed energy that deals damage in a small area.",
-                ResourceLocation.fromNamespaceAndPath(JujutsuSorcery.MOD_ID, "textures/gui/ability/flare_strike.png"),
-                50, // cost
-                20, // cooldown ticks (1 second at 20tps)
-                com.anastas1s12.jjs.abilities.AbilityType.LEARNABLE
-        ));
 
-        register(new Ability(ResourceLocation.fromNamespaceAndPath(JujutsuSorcery.MOD_ID, "shadow_dash"),
-                "Shadow Dash",
-                "Dash forward quickly, ignoring collisions for a moment.",
-                ResourceLocation.fromNamespaceAndPath(JujutsuSorcery.MOD_ID, "textures/gui/ability/shadow_dash.png"),
-                30,
-                40,
-                com.anastas1s12.jjs.abilities.AbilityType.INNATE
-        ));
+        register(new FlareStrike());
+        register(new ShadowDash());
+        register(new CursedReinforcement());
+        register(new EnergyBlast());
+
+        JujutsuSorcery.LOGGER.info("Registered " + REGISTRY.size() + " abilities");
     }
+
 
     public static void register(Ability ability) {
         REGISTRY.put(ability.getId(), ability);
+        JujutsuSorcery.LOGGER.debug("Registered ability: " + ability.getName());
     }
 
     public static Ability get(ResourceLocation id) {

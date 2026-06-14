@@ -1,6 +1,6 @@
 package com.anastas1s12.jjs.cursed_energy;
 
-import com.anastas1s12.jjs.networking.payload.SyncCursedEnergyPayload;
+import com.anastas1s12.jjs.networking.payload.s2c.SyncCursedEnergyPayload;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;

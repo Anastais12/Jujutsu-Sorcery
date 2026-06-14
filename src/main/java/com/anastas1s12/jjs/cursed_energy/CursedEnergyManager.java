@@ -1,7 +1,9 @@
 package com.anastas1s12.jjs.cursed_energy;
 
+import com.anastas1s12.jjs.networking.payload.s2c.SyncCursedEnergyPayload;
 import com.anastas1s12.jjs.utils.IPlayerDataAccessor;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -59,6 +61,12 @@ public class CursedEnergyManager {
             CursedEnergyData data = getCursedEnergyData(player);
             CursedEnergyNetworking.sendSyncPacket(serverPlayer, data);
         }
+    }
+
+    public static void syncToClient(ServerPlayer player) {
+        CursedEnergyData data = getCursedEnergyData(player);
+        SyncCursedEnergyPayload payload = new SyncCursedEnergyPayload(data.getCurrentCE(), data.getMaxCE());
+        ServerPlayNetworking.send(player, payload);
     }
     
     /**

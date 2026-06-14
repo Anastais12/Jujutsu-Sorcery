@@ -4,9 +4,7 @@ import com.anastas1s12.jjs.JujutsuSorcery;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import java.util.Set;
-import com.anastas1s12.jjs.networking.payload.SyncAbilitiesPayload;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import com.anastas1s12.jjs.networking.payload.s2c.SyncAbilitiesPayload;
 
 /**
  * Sends ability state to clients using a simple raw packet (FriendlyByteBuf).

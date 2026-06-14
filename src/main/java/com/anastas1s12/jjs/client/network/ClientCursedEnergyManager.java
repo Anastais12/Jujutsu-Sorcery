@@ -1,10 +1,9 @@
 package com.anastas1s12.jjs.client.network;
 
 import com.anastas1s12.jjs.cursed_energy.CursedEnergyData;
-import com.anastas1s12.jjs.networking.payload.SyncCursedEnergyPayload;
+import com.anastas1s12.jjs.networking.payload.s2c.SyncCursedEnergyPayload;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import com.anastas1s12.jjs.networking.payload.SyncAbilitiesPayload;
-import com.anastas1s12.jjs.client.network.ClientAbilityManager;
+import com.anastas1s12.jjs.networking.payload.s2c.SyncAbilitiesPayload;
 
 /**
  * Client-side manager for cursed energy data
@@ -22,7 +21,7 @@ public class ClientCursedEnergyManager {
                 com.anastas1s12.jjs.client.hud.CursedEnergyHUD.updateData(ceData);
             });
         // Register ability sync receiver (custom payload)
-        ClientPlayNetworking.registerGlobalReceiver(com.anastas1s12.jjs.networking.payload.SyncAbilitiesPayload.TYPE,
+        ClientPlayNetworking.registerGlobalReceiver(SyncAbilitiesPayload.TYPE,
                 (payload, context) -> {
                     com.anastas1s12.jjs.client.network.ClientAbilityManager.updateFromPayload(payload);
                 }

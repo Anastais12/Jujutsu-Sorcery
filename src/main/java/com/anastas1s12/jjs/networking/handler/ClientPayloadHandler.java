@@ -2,7 +2,7 @@ package com.anastas1s12.jjs.networking.handler;
 
 import com.anastas1s12.jjs.client.hud.CursedEnergyHUD;
 import com.anastas1s12.jjs.cursed_energy.CursedEnergyData;
-import com.anastas1s12.jjs.networking.payload.SyncCursedEnergyPayload;
+import com.anastas1s12.jjs.networking.payload.s2c.SyncCursedEnergyPayload;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 
 /**

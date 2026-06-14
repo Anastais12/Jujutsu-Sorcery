@@ -1,6 +1,6 @@
 package com.anastas1s12.jjs.client.sorcerermode;
 
-import com.anastas1s12.jjs.networking.payload.SyncSorcererModePayload;
+import com.anastas1s12.jjs.networking.payload.s2c.SyncSorcererModePayload;
 import com.anastas1s12.jjs.sorcerermode.SorcererModeData;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.player.LocalPlayer;
